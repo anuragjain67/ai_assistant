@@ -65,3 +65,9 @@ Here are a few ways you can utilize LLMs for different projects:
    Use the assistant to answer educational questions and help with learning.
 
 You can extend the LLM by integrating custom tools and functions, giving it access to specific data and functionalities based on your needs.
+
+
+
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=anuragjain67/ai_assistant&type=Date)](https://star-history.com/#anuragjain67/ai_assistant&Date)
