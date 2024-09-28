@@ -1,5 +1,7 @@
 # AI Assistant 
-It's an attempt to learn how to take advantage of LLM and create a better product.
+It's an attempt to learn how to take advantage of LLM and create a better product. 
+First I am converting docs to vector database, Now whenever user is quering, first passing this query to vector db which is returning context using  using similarity search. Pass question and context to LLM with prompt which will return answer only from the context provided. Also have support for chat history so particular session becomes relevant for the user.
+
 
 ## Demo
 1. **Select the Data Source**  
