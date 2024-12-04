@@ -1,18 +1,13 @@
 # AI Assistant 
 It's an attempt to learn how to take advantage of LLM and create a better product. 
-First I am converting docs to vector database, Now whenever user is quering, first passing this query to vector db which is returning context using  using similarity search. Pass question and context to LLM with prompt which will return answer only from the context provided. Also have support for chat history so particular session becomes relevant for the user.
 
+1. Doc summarizer (done)
+User upload the document or preprocessed his docs which will be stored in vector database. Now whenever user is quering, first passing this query to vector db which is returning context using  using similarity search. Pass question and context to LLM with prompt which will return answer only from the context provided. Also have support for chat history so particular session becomes relevant for the user.
 
-## Demo
-1. **Select the Data Source**  
-   Choose the data source for querying.
+![Architecture Diagram](docs/assets/architecture_diagram.png "Architecture Diagram")
 
-   ![Datasource Selection](docs/assets/data_source_selection.png "Datasource Selection")
-
-2. **Ask the Assistant**  
-   Interact with the assistant by asking questions related to your selected data source.
-
-   ![Ask Question](docs/assets/assistant_demo.png "Ask Question")
+2. Voice Assistant (todo)
+3. Search Engine (todo)
 
 
 ## Installation
@@ -26,48 +21,20 @@ To set up the AI Assistant, follow these steps:
    ```bash
    cp env_sample .env
    ```
-3. Create the necessary directories:
+3. You can also convert existing docs locally without uploading using
    ```bash
-   mkdir -p data/personal_notion metadata
-   ```
-4. Copy your documents into the `data/personal_notion` folder.
-5. Convert documents to a vector database:
-   ```bash
-   python data.py
+   python ai/db.py
    ```
 6. Launch the application:
    ```bash
    streamlit run app.py
    ```
 
-## Let's Understand Architecutre
-When you run `python data.py`, it converts the documents into a vector database. Whenever you ask a question, the system retrieves relevant context from the vector database and sends it to the LLM using a structured prompt.
-
-
-![Architecture Diagram](docs/assets/architecture_diagram.png "Architecture Diagram")
-
 ## TechStack
 1. LangChain
 2. ChromaDB
 2. StreamLit
-3. Google Gemini
-
-## Potential Use Cases
-Here are a few ways you can utilize LLMs for different projects:
-1. **Configuration Generator**  
-   Automatically generate configurations based on input data.
-   
-2. **NLP to SQL**  
-   Convert natural language queries to SQL statements.
-
-3. **Document Summarizer**  
-   Summarize lengthy documents into key points.
-
-4. **Teacher**  
-   Use the assistant to answer educational questions and help with learning.
-
-You can extend the LLM by integrating custom tools and functions, giving it access to specific data and functionalities based on your needs.
-
+3. LLM - Google Gemini
 
 
 ## Star History

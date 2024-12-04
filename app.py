@@ -1,14 +1,10 @@
 import streamlit as st
-from query_controller import process_input,initialize_chain  # Import the function from the chat module
+import tempfile
+import os
+from ai.db import db_obj
+from ai.query import query  # Import the function from the chat module
 
-st.set_page_config(page_title="Anurag's personal assistant", page_icon="🤖", layout="centered")
-
-if "rag_chain" not in st.session_state:
-    st.session_state.rag_chain = None
-    # st.session_state.rag_chain = initialize_chain()  # Initialize chain only once
-
-if "data_name" not in st.session_state:
-    st.session_state.data_name = ""
+st.set_page_config(page_title="AI Powered, Assistant", page_icon="🤖", layout="centered")
 
 # Initialize chat history as a session state
 if "chat_history" not in st.session_state:
@@ -23,32 +19,32 @@ st.title("🤖 Anurag's personal assistant")
 st.write("Welcome! Please specify the data source to start the chat.")
 
 
-# Input for data_name
-if not st.session_state.rag_chain:
-    st.session_state.data_name = st.text_input("Enter data source name:", key="data_name_input")
+for i, message in enumerate(st.session_state.chat_history):
+    with st.chat_message(message.type):
+        st.markdown(message.content)
 
-    if st.button("Start Chat"):
-        if st.session_state.data_name:
-            # Initialize the chain once after data_name is provided
-            st.session_state.rag_chain = initialize_chain(st.session_state.data_name)
-            st.success(f"Data source '{st.session_state.data_name}' selected. Start chatting!")
-            st.rerun()
-        else:
-            st.error("Please provide a valid data source.")
-
-else:
-
-    for i, message in enumerate(st.session_state.chat_history):
-        with st.chat_message(message.type):
-            st.markdown(message.content)
+if prompt := st.chat_input("what's on your mind?"):
+    st.chat_message("user").markdown(prompt)
+    success, chat_history, response = query(st.session_state.chat_history, prompt, dummy=False)
+    if success:
+        st.session_state.chat_history.extend(chat_history)
+    else:
+        st.error("Got error from AI: retry sending the message")
     
-    if prompt := st.chat_input("what's on your mind?"):
-        st.chat_message("user").markdown(prompt)
-        success, chat_history, response = process_input(st.session_state.rag_chain, st.session_state.chat_history, prompt, dummy=False)
-        if success:
-            st.session_state.chat_history.extend(chat_history)
-        else:
-            st.error("Got error from AI: retry sending the message")
+    with st.chat_message("AI"):
+        st.markdown(response)
+
+
+uploaded_file = st.file_uploader("Choose a file")
+if uploaded_file is not None:
+    filename = uploaded_file.name
+    st.write("filename:", filename)
+    if uploaded_file:
+        st.write("uploading file ...") 
+        temp_dir = tempfile.mkdtemp()
+        filepath = os.path.join(temp_dir, filename)
+        with open(filepath, "wb") as f:
+            f.write(uploaded_file.getvalue())
         
-        with st.chat_message("AI"):
-            st.markdown(response)
+        db_obj.add_document_from_file(filepath)
+        st.write("file uploaded successfully")
