@@ -1,0 +1,2 @@
+Check emails https://mail.google.com/mail/u/0/?hl=en_GB#search/label%3Aunread
+Create Summary of all emails and copy it to docs.google.com/create

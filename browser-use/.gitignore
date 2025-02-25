@@ -1,0 +1,4 @@
+.venv
+.env
+tasks
+agent_history.gif
