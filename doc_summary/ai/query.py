@@ -15,7 +15,7 @@ store = db_obj.get_store()
 def query(chat_history, user_input, dummy=False):
     question_answer_chain = create_stuff_documents_chain(llm, qa_prompt)
     retriever = store.as_retriever(
-        search_type="similarity",
+        search_type="classic",
         search_kwargs={"k": 3},
     )
     history_aware_retriever = create_history_aware_retriever(
